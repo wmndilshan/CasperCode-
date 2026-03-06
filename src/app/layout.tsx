@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { IBM_Plex_Mono, Inter } from "next/font/google";
 
 import { ThemeProvider } from "@/components/theme-provider";
+import { ClerkProvider, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
 
 import "./globals.css";
 
@@ -31,14 +32,27 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${plexMono.variable} antialiased`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
+        <ClerkProvider>
+          <header className="flex justify-end items-center p-4 gap-4 h-16">
+            {/* Signed-out state */}
+            <SignInButton />
+            <SignUpButton>
+              <button className="bg-[#6c47ff] text-white rounded-full font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 cursor-pointer">
+                Sign Up
+              </button>
+            </SignUpButton>
+            {/* Signed-in state */}
+            <UserButton />
+          </header>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+          </ThemeProvider>
+        </ClerkProvider>
       </body>
     </html>
   );
