@@ -57,3 +57,12 @@ export const demoGenerate = inngest.createFunction(
     };
   },
 );
+
+export const demoError = inngest.createFunction(
+  { id: "demo-error", triggers: { event: "demo/error" } },
+  async ({ step }) => {
+    await step.run("fail", async () => {
+      throw new Error("Inngest error: Something went wrong in the Inngest function");
+    })
+  },
+);
